@@ -1,6 +1,7 @@
 from aiogram import Router, Bot, F
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
+from aiogram.enums.dice_emoji import DiceEmoji
 from app.states import TTS, STT, AudioTrack
 from app.config import PAYMENTS_TOKEN
 from app.keyboards import inline_kbs as kb
@@ -232,4 +233,8 @@ async def successful_payment(message: Message):
 
 @main_router.message()
 async def end(message: Message):
-    await message.answer('end')
+    from random import choice
+
+    dice_list = [DiceEmoji.DICE, DiceEmoji.SLOT_MACHINE, DiceEmoji.DART, DiceEmoji.BOWLING, DiceEmoji.FOOTBALL,
+                 DiceEmoji.BASKETBALL]
+    await message.answer_dice(emoji=choice(dice_list))

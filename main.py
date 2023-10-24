@@ -1,5 +1,5 @@
 from aiogram import Dispatcher, Bot
-from app.middlewares import InfoLoggerMiddleware, DbSessionMiddleware
+from app.middlewares import InfoLoggerMiddleware, DbSessionMiddleware, ThrottlingMiddleware
 from app.routers import cmd_router, main_router
 from app.filters import ChatTypeFilter, IsAdmin
 from aiogram.types import BotCommand
@@ -54,6 +54,7 @@ def setup_logging(dp: Dispatcher):
     dp["aiogram_logger"] = utils.logging.setup_logger().bind(type="aiogram")
     dp["db_logger"] = utils.logging.setup_logger().bind(type="db")
     dp["business_logger"] = utils.logging.setup_logger().bind(type="business")
+    dp["throttling_logger"] = utils.logging.setup_logger().bind(type="throttling")
 
 
 async def setup_aiogram(dp: Dispatcher, bot: Bot):
@@ -88,6 +89,7 @@ def setup_handlers(dp: Dispatcher):
 def setup_middlewares(dp: Dispatcher):
     dp.update.outer_middleware(InfoLoggerMiddleware(logger=dp['aiogram_logger']))
     dp.update.middleware(DbSessionMiddleware(db_pool=dp['db_pool']))
+    dp.message.middleware(ThrottlingMiddleware(logger=dp['throttling_logger'], throttling_time=10))
 
 
 def main():

@@ -1,7 +1,6 @@
 from aiogram import Router, html
 from aiogram.types import Message
 from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.enums.dice_emoji import DiceEmoji
 from aiogram.fsm.context import FSMContext
 from app.keyboards import inline_kbs as kb
 from app.routers.functions import cmd_functions as fn
@@ -29,7 +28,7 @@ async def cmd_start(message: Message, db_pool: asyncpg.Pool, db_logger: structlo
            f'🔊Я чат-бот, который работает с аудио и видео! 🎵\n\n' \
            f'Нажми, чтобы выбрать действие'
     await message.answer(text, reply_markup=kb.start_kb, parse_mode='HTML')
-    print(message.contact)
+
 
 @cmd_router.message(Command('help'), StateFilter(None))
 async def cmd_help(message: Message):
@@ -47,12 +46,6 @@ async def cmd_stat(message: Message):
 
 @cmd_router.message(Command('game'), StateFilter(None))
 async def cmd_game(message: Message):
-    # from random import choice
-    #
-    # dice_list = [DiceEmoji.DICE, DiceEmoji.SLOT_MACHINE, DiceEmoji.DART, DiceEmoji.BOWLING, DiceEmoji.FOOTBALL,
-    #              DiceEmoji.BASKETBALL]
-    # await message.answer_dice(emoji=choice(dice_list))
-
     await message.answer('Выберите игру', reply_markup=kb.choosing_game_kb)
 
 

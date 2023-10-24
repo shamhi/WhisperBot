@@ -5,6 +5,7 @@ import structlog
 import time
 
 
+
 class InfoLoggerMiddleware(BaseMiddleware):
     def __init__(self, logger: structlog.typing.FilteringBoundLogger):
         self.logger = logger
