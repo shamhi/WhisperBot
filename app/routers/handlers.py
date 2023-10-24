@@ -185,7 +185,7 @@ async def check_get_vide(message: Message):
 
 
 @main_router.message(F.text == 'shamhi')
-async def get_payment(message: Message):
+async def get_test_payment(message: Message):
     subscribe_price = 599 * 100
     PRICES = [
         LabeledPrice(label='Подписка на 1 месяц', amount=subscribe_price),
@@ -228,7 +228,6 @@ async def successful_payment(message: Message):
     payment = message.successful_payment
     await message.answer(
         f'Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!')
-    print(payment)
 
 
 @main_router.message()
