@@ -31,3 +31,4 @@
 ~/whisperbot >>> python main.py
 ```
 Скопируйте файл `env_example` как `.env` (с точкой в начале), откройте и отредактируйте содержимое.
+Далее зарегстрируйтесь на [**EdenAI**](https://edenai.co) (платформа для подключения [**API**](https://ru.wikipedia.org/wiki/API) ресурсов) и вставьте уникальный токен в [**.env**](https://github.com/shamhi/whisperbot/env_example).
