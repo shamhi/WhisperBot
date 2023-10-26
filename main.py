@@ -12,7 +12,7 @@ import asyncpg
 
 
 async def create_db_connections(dp: Dispatcher):
-    logger: structlog.typing.FilteringBoundLogger = dp["business_logger"]
+    logger: structlog.typing.FilteringBoundLogger = dp["connect_logger"]
 
     logger.debug("Connecting to PostgreSQL", db="main")
     try:
@@ -53,7 +53,7 @@ async def setup_commands(bot: Bot):
 def setup_logging(dp: Dispatcher):
     dp["aiogram_logger"] = utils.logging.setup_logger().bind(type="aiogram")
     dp["db_logger"] = utils.logging.setup_logger().bind(type="db")
-    dp["business_logger"] = utils.logging.setup_logger().bind(type="business")
+    dp["connect_logger"] = utils.logging.setup_logger().bind(type="connect")
     dp["throttling_logger"] = utils.logging.setup_logger().bind(type="throttling")
 
 
