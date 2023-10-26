@@ -64,6 +64,7 @@ async def setup_aiogram(dp: Dispatcher, bot: Bot):
     logger.debug("Configuring aiogram")
     await create_db_connections(dp)
     setup_handlers(dp)
+    setup_filters(dp)
     setup_middlewares(dp)
     logger.info("Configured aiogram")
 
@@ -86,6 +87,11 @@ def setup_handlers(dp: Dispatcher):
     dp.include_routers(cmd_router, main_router)
 
 
+def setup_filters(dp: Dispatcher):
+    dp.message.filter(ChatTypeFilter('private'))
+    dp.message.filter(IsAdmin())
+
+
 def setup_middlewares(dp: Dispatcher):
     dp.update.outer_middleware(InfoLoggerMiddleware(logger=dp['aiogram_logger']))
     dp.update.middleware(DbSessionMiddleware(db_pool=dp['db_pool']))
@@ -95,9 +101,6 @@ def setup_middlewares(dp: Dispatcher):
 def main():
     bot = Bot(token=config.TOKEN)
     dp = Dispatcher()
-
-    dp.message.filter(ChatTypeFilter('private'))
-    dp.message.filter(IsAdmin())
 
     dp.startup.register(aiogram_on_startup)
     dp.shutdown.register(aiogram_on_shutdown)
