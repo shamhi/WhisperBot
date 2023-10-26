@@ -40,7 +40,7 @@ class ThrottlingMiddleware(BaseMiddleware):
             self.cache[user.id] = throttling_data
 
             if not throttling_data.send_warning:
-                await event.answer('Вы слишком активны, пожалуйста, успокойтесь')
+                await event.answer('Вы заблокированы за спам. Повторите через некоторое время')
 
                 throttling_data.send_warning = True
 
