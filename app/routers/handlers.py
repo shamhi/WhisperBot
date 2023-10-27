@@ -7,7 +7,7 @@ from app.config import PAYMENTS_TOKEN
 from app.keyboards import inline_kbs as kb
 from aiogram.types import Message, CallbackQuery, FSInputFile, LabeledPrice, PreCheckoutQuery
 from app.routers.functions import main_functions as fn
-from asyncio import sleep
+
 
 main_router = Router()
 
@@ -56,7 +56,6 @@ async def get_tts_gender(call: CallbackQuery, state: FSMContext):
     await state.set_state(TTS.get_person)
 
 
-# noinspection PyUnreachableCode
 @main_router.callback_query(F.data.in_(kb.all_persons), TTS.get_person)
 async def get_tts_person(call: CallbackQuery, state: FSMContext):
     await call.message.delete()
