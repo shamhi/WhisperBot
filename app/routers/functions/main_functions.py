@@ -54,7 +54,7 @@ def check_stt_lang(text):
     return lang_data.get(lang_code)
 
 
-async def create_audio(state):
+async def create_audio(data):
     voices = {
         'ru': {'MALE': {'Sasha': ['google', 'ru-RU-Standard-B'], 'Maxim': ['amazon', 'ru-RU_Maxim_Standard']},
                'FEMALE': {'Elena': ['google', 'ru-RU-Standard-C'], 'Tatyana': ['amazon', 'ru-RU_Tatyana_Standard']}},
@@ -63,7 +63,6 @@ async def create_audio(state):
     }
 
     try:
-        data = await state.get_data()
         lang = data.get('lang')
         gender = str(data.get('tts_gender')).upper()
         person = data.get('tts_person')

@@ -63,21 +63,12 @@ async def get_tts_person(call: CallbackQuery, state: FSMContext):
     await state.update_data(tts_person=call.data)
     data = await state.get_data()
     text = data.get('tts_text')
-    audio = await fn.create_audio(state=state)
-    msg = await call.message.answer('ben')
-    i = 0
-    while True:
-        i += 1
-        await sleep(1)
+    audio = await fn.create_audio(data=data)
 
-        await call.bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg.message_id, text=str(i))
-        if audio:
-            await call.message.answer_audio(audio=audio, caption=text)
-            break
-        else:
-            if i >= 25:
-                await call.message.answer(text='Что-то пошло не так')
-                break
+    if audio:
+        await call.message.answer_audio(audio=audio, caption=text)
+    else:
+        await call.message.answer(text='Что-то пошло не так')
 
     await state.clear()
 
