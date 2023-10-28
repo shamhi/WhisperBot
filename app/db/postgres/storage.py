@@ -136,13 +136,7 @@ class PostgresConnection(RawConnection):
         await self._execute(sql)
 
     async def create_msg_table(self) -> None:
-        sql = """CREATE TABLE IF NOT EXISTS users(
-                        id SERIAL PRIMARY KEY,
-                        user_id BIGINT,
-                        user_name VARCHAR(32),
-                        registered_at BIGINT)"""
-
-        await self._execute(sql)
+        pass
 
     async def register_user(self, user_id: int, name: str) -> None:
         check_user = await self._fetchrow(sql='SELECT * FROM users WHERE user_id = $1', params=(user_id,))
