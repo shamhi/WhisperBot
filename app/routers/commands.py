@@ -19,6 +19,7 @@ async def cmd_start(message: Message, db_pool: asyncpg.Pool, db_logger: structlo
     user_id = message.from_user.id
     user_name = message.from_user.username
 
+    await db.create_main_table()
     await db.register_user(user_id=user_id, name=user_name)
 
     if message.from_user is None:
