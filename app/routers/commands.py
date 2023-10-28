@@ -20,6 +20,7 @@ async def cmd_start(message: Message, db_pool: asyncpg.Pool, db_logger: structlo
     user_name = message.from_user.username
 
     # If you don't have a table, call a function "await db.create_main_table"
+    # But first you need to create DB and specify it in .env file
     await db.register_user(user_id=user_id, name=user_name)
 
     if message.from_user is None:
