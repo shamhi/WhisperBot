@@ -1,26 +1,23 @@
-from datetime import datetime
+from datetime import date
 import random
+import calendar
 
 
 def get_stat():
-    day = random.randint(1, 30)
-    current_day = int(datetime.now().strftime('%d'))
-    current_month = int(datetime.now().strftime('%m'))
-    month = random.randint(current_month, 12)
-    year = int(datetime.now().strftime('%Y'))
-    if int(month) == current_month:
-        day = random.randint(current_day, 30)
-    if len(str(month)) != 2:
-        month = f'0{str(month)}'
-    if len(str(day)) != 2:
-        day = f'0{str(day)}'
-    rand_date = f'{str(day)}.{str(month)}.{str(year)}'
+    current_date = date.today()
+    current_day = current_date.day
+    current_month = current_date.month
+    current_year = current_date.year
 
-    now_year = int(datetime.now().strftime('%Y'))
-    days_NY = 365 - abs((datetime(now_year, 1, 1) - datetime.now())).days
+    r_month = random.randint(current_month, 12)
+    month_days = calendar.monthrange(current_year, r_month)[1]
+    r_day = random.randint(current_day, month_days) if current_month == r_month else random.randint(1, month_days)
 
-    random_int = random.randint(1, 2)
-    OR = 'орёл' if random_int == 1 else 'решка'
+    rand_date = f'{r_day:02d}.{r_month:02d}.{current_year}'
+
+    days_NY = (date(current_year, 1, 1) - current_date).days
+
+    OR = 'орёл' if random.randint(1, 2) == 1 else 'решка'
 
     rand_to_thousand = random.randint(1, 1000)
     rand_to_ten = random.randint(1, 10)
@@ -32,8 +29,3 @@ def get_stat():
            f"Случайное число до 10: <code>{rand_to_ten}</code>"
 
     return text
-
-
-
-
-
