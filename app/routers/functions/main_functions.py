@@ -143,10 +143,10 @@ async def get_file_id(message, content_type):
 async def get_file_bytes(downloaded_file):
     file_bytes = downloaded_file.read()
 
-    with open('app/audio_temp/audio.mp3', 'wb') as file:
+    with open('app/audio_templt/audio.mp3', 'wb') as file:
         file.write(file_bytes)
 
-    file_bytes = open('app/audio_temp/audio.mp3', 'rb')
+    file_bytes = open('app/audio_templt/audio.mp3', 'rb')
 
     return file_bytes
 
@@ -154,11 +154,11 @@ async def get_file_bytes(downloaded_file):
 async def get_audiotrack(downloaded_file):
     video_bytes = downloaded_file.read()
 
-    with open('app/video_temp/video.mp4', 'wb') as file:
+    with open('app/video_templt/video.mp4', 'wb') as file:
         file.write(video_bytes)
 
-    video = VideoFileClip('app/video_temp/video.mp4')
+    video = VideoFileClip('app/video_templt/video.mp4')
     audio = video.audio
-    audio.write_audiofile(filename='app/video_temp/audio.mp3')
+    audio.write_audiofile(filename='app/video_templt/audio.mp3')
 
     return 'app/video_temp/audio.mp3'
