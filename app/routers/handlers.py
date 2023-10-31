@@ -3,9 +3,8 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.enums.dice_emoji import DiceEmoji
 from app.states import TTS, STT, AudioTrack
-from app.config import PAYMENTS_TOKEN
 from app.keyboards import inline_kbs as kb
-from aiogram.types import Message, CallbackQuery, FSInputFile, LabeledPrice, PreCheckoutQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from app.routers.functions import main_functions as fn
 
 
