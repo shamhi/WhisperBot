@@ -12,11 +12,6 @@ from app.routers.functions import main_functions as fn
 main_router = Router()
 
 
-@main_router.message(F.sticker)
-async def inline_builder(message: Message):
-    await message.answer('Выберите число:', reply_markup=kb.builder_kb.as_markup())
-
-
 @main_router.callback_query(F.data.in_(kb.builder_kb_data))
 async def builder_callback(call: CallbackQuery):
     await call.answer(call.data)
