@@ -33,6 +33,8 @@ You can download [**Git Repo**](https://github.com/shamhi/whisper) by cloning on
 ~/whisperbot >>> python main.py
 ```
 
+## Usage
+
 Copy file `env_example` to `.env` (with leading dot), open and edit it.
 Then register on [**EdenAI**](https://edenai.co) (platform for enabling [**API**](https://ru.wikipedia.org/wiki/API) resources) and insert a unique token into [**.env**](https://github.com/shamhi/whisperbot/blob/main/env_example).
 
