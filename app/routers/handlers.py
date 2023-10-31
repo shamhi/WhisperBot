@@ -170,52 +170,6 @@ async def check_get_vide(message: Message):
                          parse_mode='markdownv2')
 
 
-@main_router.message(F.text == 'shamhi')
-async def get_test_payment(message: Message):
-    subscribe_price = 599 * 100
-    PRICES = [
-        LabeledPrice(label='Подписка на 1 месяц', amount=subscribe_price),
-        LabeledPrice(label='Скидка 25%', amount=-(subscribe_price // 4)),
-    ]
-
-    if PAYMENTS_TOKEN.split(':')[1] == 'TEST':
-        await message.answer_invoice(
-            title='Подписка на бота',
-            description='Активация подписки на бота на 1 месяц',
-            provider_token=PAYMENTS_TOKEN,
-            currency='rub',
-            photo_url='https://www.ixbt.com/img/x780/n1/news/2022/5/2/1_25_large.png',
-            photo_size=416,
-            photo_width=416,
-            photo_height=234,
-            prices=PRICES,
-            max_tip_amount=100000,
-            suggested_tip_amounts=[10000, 20000, 30000, 40000],
-            start_parameter='one-month-subscription',
-            payload='test-invoice-payload',
-            need_name=True,
-            need_email=True,
-            need_phone_number=True,
-            need_shipping_address=False,
-            send_email_to_provider=False,
-            send_phone_number_to_provider=False,
-            is_flexible=False,
-            allow_sending_without_reply=True
-        )
-
-
-@main_router.pre_checkout_query()
-async def pre_check_query(query: PreCheckoutQuery):
-    await query.answer(ok=True)
-
-
-@main_router.message(F.successful_payment)
-async def successful_payment(message: Message):
-    payment = message.successful_payment
-    await message.answer(
-        f'Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!')
-
-
 @main_router.message()
 async def end(message: Message):
     from random import choice
