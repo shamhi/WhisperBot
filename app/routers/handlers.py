@@ -11,11 +11,6 @@ from app.routers.functions import main_functions as fn
 main_router = Router()
 
 
-@main_router.callback_query(F.data.in_(kb.builder_kb_data))
-async def builder_callback(call: CallbackQuery):
-    await call.answer(call.data)
-
-
 @main_router.callback_query(F.data == kb.tts_data, StateFilter(None))
 async def tts_callback(call: CallbackQuery, state: FSMContext):
     await call.message.delete()
