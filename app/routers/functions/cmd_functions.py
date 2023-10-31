@@ -15,7 +15,9 @@ def get_stat():
 
     rand_date = f'{r_day:02d}.{r_month:02d}.{current_year}'
 
-    days_NY = (date(current_year, 1, 1) - current_date).days
+    year_days = 366 if calendar.isleap(current_year) else 365
+
+    days_NY = year_days - (current_date - date(current_year, 1, 1)).days
 
     OR = 'орёл' if random.randint(1, 2) == 1 else 'решка'
 
