@@ -19,7 +19,7 @@ async def tts_callback(call: CallbackQuery, state: FSMContext):
     await state.set_state(TTS.get_text)
 
 
-@main_router.message(F.text.regexp(r'^[A-Za-zА-Яа-я0-9?!,. -]+$'), F.text.len() < 500, TTS.get_text)
+@main_router.message(F.text.regexp(r'^[A-Za-zА-Яа-я0-9()?!,. -]+$'), F.text.len() < 500, TTS.get_text)
 async def get_tts_text(message: Message, state: FSMContext):
     lang_code = fn.detect_language(message.text)
     await state.update_data(tts_text=message.text)
