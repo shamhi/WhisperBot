@@ -55,8 +55,7 @@ async def cmd_game(message: Message):
 async def cancel_states(message: Message, state: FSMContext):
     await state.clear()
     await message.answer('*Все состояния отменены*', parse_mode='markdown')
-    text = f'<b>Добро пожаловать,</b> <a href="tg://user?id={message.from_user.id}">{html.quote(message.from_user.full_name)}</a>\n\n' \
-           f'🔊Я чат-бот, который работает с аудио и видео! 🎵\n\n' \
+    text = f'🔊Я чат-бот, который работает с аудио и видео! 🎵\n\n' \
            f'Нажми, чтобы выбрать действие'
     await message.answer(text, reply_markup=kb.start_kb, parse_mode='HTML')
 

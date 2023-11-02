@@ -19,10 +19,11 @@ async def tts_callback(call: CallbackQuery, state: FSMContext):
     await state.set_state(TTS.get_text)
 
 
-@main_router.message(F.text.regexp(r'^[A-Za-zА-Яа-я0-9()?!,. -]+$'), F.text.len() < 500, TTS.get_text)
+@main_router.message(F.text.len() < 1000, TTS.get_text)
 async def get_tts_text(message: Message, state: FSMContext):
+    text = message.text if '_' not in message.text else ' '.join(message.text.split('_'))
     lang_code = fn.detect_language(message.text)
-    await state.update_data(tts_text=message.text)
+    await state.update_data(tts_text=text)
     await state.update_data(lang=lang_code)
     await message.answer('*Выберите пол для озвучки*', reply_markup=kb.genders_kb, parse_mode='markdownv2')
 
@@ -31,7 +32,7 @@ async def get_tts_text(message: Message, state: FSMContext):
 
 @main_router.message(TTS.get_text)
 async def check_tts_text(message: Message):
-    await message.answer(f'*Ваш текст должен быть менее 500 символов и не содержать специальные символы*',
+    await message.answer(f'*Ваш текст должен быть менее 1000 символов*',
                          parse_mode='markdownv2')
 
 
@@ -51,6 +52,8 @@ async def get_tts_person(call: CallbackQuery, state: FSMContext):
     await state.update_data(tts_person=call.data)
     data = await state.get_data()
     text = data.get('tts_text')
+
+    await call.bot.send_chat_action(chat_id=call.message.chat.id, action='upload_audio')
     audio = await fn.create_audio(data=data)
 
     if audio:
@@ -85,6 +88,7 @@ async def get_stt_speech(message: Message, state: FSMContext, bot: Bot):
 
     file_bytes = await fn.get_file_bytes(downloaded_file=downloaded_file)
     text = await fn.get_stt(file_bytes=file_bytes)
+    await bot.send_chat_action(chat_id=message.chat.id, action='typing')
 
     if text:
         msg = await bot.send_message(message.chat.id, text=text, reply_markup=kb.translate_stt_kb)
@@ -110,8 +114,9 @@ async def get_stt_language(call: CallbackQuery, bot: Bot, state: FSMContext):
     text = state_data.get('stt_msg_text')
     msg_id = state_data.get('stt_msg_id')
 
-    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg_id, text=text,
-                                reply_markup=kb.choose_language_stt_kb)
+    if text is not None:
+        await bot.edit_message_text(chat_id=call.message.chat.id, message_id=msg_id, text=text,
+                                    reply_markup=kb.choose_language_stt_kb)
 
 
 @main_router.callback_query(F.data.in_(kb.stt_languages_data), StateFilter(None))
